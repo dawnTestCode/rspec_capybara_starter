@@ -1,18 +1,23 @@
+require_relative '../lib/GooglePage.rb'
+
 describe "searching Google.com" do
 
   before(:each) do
     visit('/')
+    @googlePage = GooglePage.new()
   end
 
   #this test should pass
   it "should allow me to search for 'green cheese'", tag('Smoke') do
-    fill_in('q', with: 'green cheese')
-    expect(page).to have_content('Green cheese is a term for a fresh cheese, one that has not thoroughly dried yet, nor been aged, which is white in colour and usually round in shape')
+    #fill_in('q', with: 'green cheese')
+    @googlePage.search_for("green cheese")
+    expect(page).to have_content('The first sort is green cheese, which is not green by reason of colour but for its newness, for the whey is not half pressed out of it yet.')
   end
 
   #this test should fail
   it "should show 'five stars' if I put five astericks into search box", tag('XFail') do
-    fill_in('q', with: '*****')
+    #fill_in('q', with: '*****')
+    @googlePage.search_for('*****')
     expect(page).to have_content('five stars')
   end
 
